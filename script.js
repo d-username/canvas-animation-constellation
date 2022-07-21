@@ -72,7 +72,45 @@ function renderParticles() {
     particleArray[i].draw();
     particleArray[i].update();
   }
-  //requestAnimationFrame(renderParticles);
+  drawLine();
+  requestAnimationFrame(renderParticles);
 }
 
 renderParticles();
+
+// connect a with b
+function drawLine() {
+  for (let a = 0; a < particleArray.length; a++) {
+    findPair(particleArray[a]);
+  }
+}
+
+function findPair(particle) {
+  for (let b = 0; b < particleArray.length; b++) {
+    let distance = checkDistance(
+      particle.x,
+      particle.y,
+      particleArray[b].x,
+      particleArray[b].y
+    );
+
+    if (distance < 100) {
+      context.strokeStyle = 'red';
+      context.lineWidth = 1;
+      context.beginPath();
+      context.moveTo(particle.x, particle.y);
+      context.lineTo(particleArray[b].x, particleArray[b].y);
+      context.stroke();
+    }
+  }
+}
+
+function checkDistance(aX, aY, bX, bY) {
+  let distanceBetweenXs = aX - bX;
+  let distancebetweenYs = aY - bY;
+  let distance = Math.sqrt(
+    distanceBetweenXs * distanceBetweenXs +
+      distancebetweenYs * distancebetweenYs
+  );
+  return distance;
+}
