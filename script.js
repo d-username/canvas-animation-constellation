@@ -4,7 +4,10 @@ const context = canvas.getContext('2d');
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
 
+context.fillRect(10, 10, 150, 100);
+
 let particleArray = [];
+let numberOfParticles = 100;
 
 let mouse = {
   x: null,
@@ -21,10 +24,10 @@ class Particle {
   constructor(x, y) {
     this.x = x;
     this.y = y;
-    this.size = 5;
+    this.size = Math.random() * 2 + 2;
     this.density = Math.random() * 5 + 1;
     this.directionAngle = Math.random() * 360;
-    this.speed = 1 + Math.random() * 1;
+    this.speed = Math.random() * 0.5;
     this.vector = {
       x: Math.cos(this.directionAngle) * this.speed,
       y: Math.sin(this.directionAngle) * this.speed,
@@ -32,7 +35,7 @@ class Particle {
   }
 
   draw() {
-    context.fillStyle = 'rgba(38, 198, 218, 1)';
+    context.fillStyle = 'rgba(232, 240, 242, 1)';
     context.beginPath();
     context.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
     context.closePath();
@@ -57,7 +60,7 @@ class Particle {
 }
 
 function createParticles() {
-  for (let i = 0; i < 50; i++) {
+  for (let i = 0; i < numberOfParticles; i++) {
     let x = Math.random() * canvas.width;
     let y = Math.random() * canvas.height;
     particleArray.push(new Particle(x, y));
@@ -95,8 +98,9 @@ function findPair(particle) {
     );
 
     if (distance < 100) {
-      context.strokeStyle = 'red';
-      context.lineWidth = 1;
+      let lineOpacity = 1 - distance / 100;
+      context.strokeStyle = 'rgba(232, 240, 242, ' + lineOpacity + ')';
+      context.lineWidth = 0.5;
       context.beginPath();
       context.moveTo(particle.x, particle.y);
       context.lineTo(particleArray[b].x, particleArray[b].y);

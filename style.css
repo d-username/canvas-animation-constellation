@@ -11,5 +11,6 @@ body{
 }
 
 #canvas {
-    background-color: black;
+    background: rgb(14, 23, 71);
+    background: radial-gradient(circle, rgba(14, 23, 71, 1) 43%, rgba(6, 11, 38, 1) 100%);
 }
